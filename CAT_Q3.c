@@ -1,79 +1,57 @@
+/*
+Name:Graham wafula 
+Reg No:PA106/G/28759/25
+*/
 #include <stdio.h>
-#include <stdlib.h>
-
-void writeInputFile();
-void processNumbers();
-void displayFiles();
-
 int main() {
-    writeInputFile();
-    processNumbers();
-    displayFiles();
-    return 0;
-}
+    FILE *f1, *f2;
+    int i, n, sum = 0, count = 0;
+    float avg;
 
-// 1?? Function to write 10 integers into input.txt
-void writeInputFile() {
-    FILE *fp = fopen("input.txt", "w");
-    if (fp == NULL) {
-        printf("Error opening input.txt for writing!\n");
-        exit(1);
+    f1 = fopen("input.txt", "w");
+    if (f1 == NULL) {
+        printf("Error\n");
+        return 0;
     }
 
-    int num,i;
-    printf("Enter 10 integers:\n");
-    for (int i = 0; i < 10; i++){
-        scanf("%d", &num);
-        fprintf(fp, "%d\n", num);
+    printf("Enter 10 numbers:\n");
+    for (i = 0; i < 10; i++) {
+        scanf("%d", &n);
+        fprintf(f1, "%d\n", n);
+    }
+    fclose(f1);
+
+    f1 = fopen("input.txt", "r");
+    f2 = fopen("output.txt", "w");
+    if (f1 == NULL || f2 == NULL) {
+        printf("Error\n");
+        return 0;
     }
 
-    fclose(fp);
-    printf("Numbers saved to input.txt successfully.\n\n");
-}
-
-// 2?? Function to read numbers, find sum and average, and write to output.txt
-void processNumbers() {
-    FILE *in = fopen("input.txt", "r");
-    FILE *out = fopen("output.txt", "w");
-
-    if (in == NULL || out == NULL) {
-        printf("Error opening file(s)!\n");
-        exit(1);
-    }
-
-    int num, sum = 0, count = 0;
-    while (fscanf(in, "%d", &num) == 1) {
-        sum += num;
+    while (fscanf(f1, "%d", &n) == 1) {
+        sum = sum + n;
         count++;
     }
 
-    float avg = (count > 0) ? (float)sum / count : 0;
-    fprintf(out, "Sum = %d\nAverage = %.2f\n", sum, avg);
+    avg = (float)sum / count;
 
-    fclose(in);
-    fclose(out);
-    printf("Sum and average written to output.txt.\n\n");
-}
+    fprintf(f2, "Sum = %d\n", sum);
+    fprintf(f2, "Average = %.2f\n", avg);
 
-// 3?? Function to display contents of both files
-void displayFiles() {
-    FILE *in = fopen("input.txt", "r");
-    FILE *out = fopen("output.txt", "r");
-    char ch;
+    fclose(f1);
+    fclose(f2);
 
-    if (in == NULL || out == NULL) {
-        printf("Error opening file(s) for display!\n");
-        exit(1);
-    }
+    printf("\ninput.txt:\n");
+    f1 = fopen("input.txt", "r");
+    while ((n = fgetc(f1)) != EOF)
+        putchar(n);
+    fclose(f1);
 
-    printf("---- Contents of input.txt ----\n");
-    while ((ch = fgetc(in)) != EOF)
-        putchar(ch);
+    printf("\noutput.txt:\n");
+    f2 = fopen("output.txt", "r");
+    while ((n = fgetc(f2)) != EOF)
+        putchar(n);
+    fclose(f2);
 
-    printf("\n---- Contents of output.txt ----\n");
-    while ((ch = fgetc(out)) != EOF)
-        putchar(ch);
-
-    fclose(in);
-    fclose(out);
+    return 0;
 }
