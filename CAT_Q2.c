@@ -1,3 +1,7 @@
+/*
+NAME:Graham wafula
+REG NO:PA106/28759/G/25
+*/    
 #include <stdio.h>
 
 int main() {
@@ -29,4 +33,5 @@ int main() {
     printf("Net pay:%f", net_pay);
 	
 	 return 0;
+
 }
